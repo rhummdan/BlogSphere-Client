@@ -3,6 +3,8 @@ import {useEffect, useState, useContext} from 'react';
 import {useNavigate, Link} from "react-router-dom"; // allows us to redirect in app
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import {AuthContext} from "../helpers/AuthContext" //allows us to use the authstate set from the app.js page
+import {Formik, Form, Field, ErrorMessage} from 'formik';
+import * as Yup from 'yup';
 
 
 
@@ -13,6 +15,12 @@ export const Home = () => {
 
     const  navigate = useNavigate(); //we wil use this to navigate to diff page when user clicks on post
     const {authState} = useContext(AuthContext);
+
+    //setting initial values for fields of form
+    const initialValues = {
+        title: "",
+        postText: "",
+    };
 
     useEffect(() => {
 
@@ -34,6 +42,24 @@ export const Home = () => {
         }
         
     }, []);
+
+    //creating schema for the fields of the form
+    const validationSchema = Yup.object().shape({
+        title: Yup.string().required("You must input a title!"),
+        postText: Yup.string().required(),
+    });
+
+    //on submit we will post data to database. "data" contains user input in form of object
+    const onSubmit = (data) => {
+        axios.post("http://localhost:3001/posts", data, {
+            headers: {accessToken: localStorage.getItem("accessToken")},
+        }).then((response) => {  
+            setListOfPosts([...listOfPosts, response.data]);
+        })
+        
+    
+        
+    };
 
 
     const likeAPost = (postId) => {
@@ -66,27 +92,47 @@ export const Home = () => {
     };
 
     return (
-        <div className="App">
-        {
-            listOfPosts.map((value, key) => {
-            return <div className='post'> 
-                <div className='title'> {value.title}</div>
-                <div className='body' onClick={() => {navigate(`/post/${value.id}`)}}>{value.postText}</div>
-                <div className='footer'>
-                    <div className="username"><Link to={`/profile/${value.UserId}`} >{value.username}</Link></div>
-                        <div className="buttons">
-                            {/* checking if post were looking at exists in  likedPOsts */}
-                            <ThumbUpAltIcon className={likedPosts.includes(value.id) ? "unlikeBttn" : "likeBttn"} onClick={() => {likeAPost(value.id)}}/>
-                        
-                        
-                            <label>{value.Likes.length}</label>
-                        </div>
-                     
+        
+        <>
+            <div className='createPostPage'>
+            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+                <Form className='formContainer'>
+                    <label>Title: </label>
+                    <ErrorMessage name='title' component="span"/>
+                    <Field id="inputCreatePost" name="title" placeholder="(Ex. Title...)"/>
                     
-                </div>
+                    <label>Post: </label>
+                    <ErrorMessage name='postText' component="span"/>
+                    <Field id="inputCreatePost" name="postText" placeholder="(Ex. Post...)"/>
+
+                    <button type='submit'>Add Post</button>
+                </Form>
+            </Formik>
             </div>
-            })
-        }
-        </div>
+
+            <div className="App">
+            {
+                listOfPosts.map((value, key) => {
+                return <div className='post'> 
+                    <div className='title'> {value.title}</div>
+                    <div className='body' onClick={() => {navigate(`/post/${value.id}`)}}>{value.postText}</div>
+                    <div className='footer'>
+                        <div className="username"><Link to={`/profile/${value.UserId}`} >{value.username}</Link></div>
+                            <div className="buttons">
+                                {/* checking if post were looking at exists in  likedPOsts */}
+                                <ThumbUpAltIcon className={likedPosts.includes(value.id) ? "unlikeBttn" : "likeBttn"} onClick={() => {likeAPost(value.id)}}/>
+                            
+                                
+                                {/*<label>{value.Likes.length}</label> */}
+                            </div>
+                        
+                        
+                    </div>
+                </div>
+                })
+            }
+            </div>
+        </>
+        
     );
 }
