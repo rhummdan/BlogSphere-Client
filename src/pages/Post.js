@@ -78,19 +78,27 @@ export const Post = () => {
     const editPost = (option) => {
         if(option === "title") {
             const newTitle = prompt("Enter New Title:");
-            axios.put("http://localhost:3001/posts/title", {newTitle: newTitle, id: id}, {
+            if(newTitle) {
+                axios.put("http://localhost:3001/posts/title", {newTitle: newTitle, id: id}, {
                 headers: {accessToken: localStorage.getItem("accessToken")},
-            }).then((res) => {
-                setPostObject({...postObject, title: res.data});
-            })
-
+                }).then((res) => {
+                    setPostObject({...postObject, title: res.data});
+                })
+            } else {
+                alert("Title update cancelled.");
+            }
+            
         } else {
             const newPostText = prompt("Enter New Text:");
-            axios.put("http://localhost:3001/posts/postText", {newText: newPostText, id: id}, {
+            if(newPostText) {
+                axios.put("http://localhost:3001/posts/postText", {newText: newPostText, id: id}, {
                 headers: {accessToken: localStorage.getItem("accessToken")},
-            }).then((res) => {
-                setPostObject({...postObject, postText: res.data});
-            })
+                }).then((res) => {
+                    setPostObject({...postObject, postText: res.data});
+                })
+            } else {
+                alert("Text update cancelled.");
+            }
         }
     }
 

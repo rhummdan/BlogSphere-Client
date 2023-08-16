@@ -12,7 +12,6 @@ export const Home = () => {
 
     const [listOfPosts, setListOfPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
-
     const  navigate = useNavigate(); //we wil use this to navigate to diff page when user clicks on post
     const {authState} = useContext(AuthContext);
 
@@ -22,8 +21,7 @@ export const Home = () => {
         postText: "",
     };
 
-    useEffect(() => {
-
+    const fillUpStates = () => {
         //if user isn't logged in, they cant view posts in home page
         if(!localStorage.getItem("accessToken")) {
             navigate("/login");
@@ -40,7 +38,10 @@ export const Home = () => {
             
         })
         }
-        
+    }
+
+    useEffect(() => {
+        fillUpStates();
     }, []);
 
     //creating schema for the fields of the form
@@ -50,15 +51,13 @@ export const Home = () => {
     });
 
     //on submit we will post data to database. "data" contains user input in form of object
-    const onSubmit = (data) => {
+    const onSubmit = (data, props) => {
         axios.post("http://localhost:3001/posts", data, {
             headers: {accessToken: localStorage.getItem("accessToken")},
-        }).then((response) => {  
-            setListOfPosts([...listOfPosts, response.data]);
+        }).then(() => {  
+            fillUpStates();
         })
-        
-    
-        
+        props.resetForm(); //resetting form values after user submits
     };
 
 
@@ -95,24 +94,25 @@ export const Home = () => {
         
         <>
             <div className='createPostPage'>
-            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                <Form className='formContainer'>
-                    <label>Title: </label>
-                    <ErrorMessage name='title' component="span"/>
-                    <Field id="inputCreatePost" name="title" placeholder="(Ex. Title...)"/>
-                    
-                    <label>Post: </label>
-                    <ErrorMessage name='postText' component="span"/>
-                    <Field id="inputCreatePost" name="postText" placeholder="(Ex. Post...)"/>
+                <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+                    <Form className='formContainer'>
+                        <label>Title: </label>
+                        <ErrorMessage name='title' component="span"/>
+                        <Field id="inputCreatePost" name="title" placeholder="(Ex. Title...)" autoComplete="off"/>
+                        
+                        <label>Post: </label>
+                        <ErrorMessage name='postText' component="span"/>
+                        <Field id="inputCreatePost" name="postText" placeholder="(Ex. Post...)" autoComplete="off"/>
 
-                    <button type='submit'>Add Post</button>
-                </Form>
-            </Formik>
+                        <button type='submit'>Add Post</button>
+                    </Form>
+                </Formik>
             </div>
 
             <div className="App">
             {
-                listOfPosts.map((value, key) => {
+                
+                listOfPosts.slice().reverse().map((value, key) => {
                 return <div className='post'> 
                     <div className='title'> {value.title}</div>
                     <div className='body' onClick={() => {navigate(`/post/${value.id}`)}}>{value.postText}</div>
@@ -122,8 +122,7 @@ export const Home = () => {
                                 {/* checking if post were looking at exists in  likedPOsts */}
                                 <ThumbUpAltIcon className={likedPosts.includes(value.id) ? "unlikeBttn" : "likeBttn"} onClick={() => {likeAPost(value.id)}}/>
                             
-                                
-                                {/*<label>{value.Likes.length}</label> */}
+                                <label>{value.Likes.length}</label>
                             </div>
                         
                         
