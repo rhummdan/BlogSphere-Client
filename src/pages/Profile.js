@@ -13,6 +13,7 @@ export const Profile = () => {
     const [listOfPosts, setListOfPosts] = useState([]);
     const navigate = useNavigate();
     const {authState} = useContext(AuthContext);
+    const {setAuthState} = useContext(AuthContext);
 
     useEffect(() => {
         axios.get(`http://localhost:3001/auth/basicinfo/${id}`).then((response) => {
@@ -24,6 +25,17 @@ export const Profile = () => {
         })
     }, []);
 
+    //testing the logout button in this part of the screen 
+    const logout = () => {
+        localStorage.removeItem("accessToken"); //removing accessToken from localStorage
+        setAuthState({
+          username: "",
+          id: "", 
+          status: false}
+          ); //making authstate false will change the login button on top
+        navigate("/login");
+      }
+
     return (
         <div className="profilePageContainer">
             <div className="basicInfo">
@@ -31,6 +43,7 @@ export const Profile = () => {
                 {authState.username === userName && (
                     <button onClick={() => {navigate("/changepassword")}}>Change My Password</button>
                 )}
+                <button onClick={logout}>logout</button>
                 
             </div>
             <div className="listOfPosts">

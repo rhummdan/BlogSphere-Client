@@ -29,14 +29,14 @@ export const Registration = () => {
             
              <label>Username: </label>
              <ErrorMessage name='username' component="span"/>
-             <Field id="inputCreatePost" name="username" placeholder="(Ex. John...)"/>
+             <Field id="inputCreatePost" name="username"/>
 
              <label>Password: </label>
              <ErrorMessage name='passoword' component="span"/>
-             <Field id="inputCreatePost" type="password" name="password" placeholder="(Your Password...)"/>
+             <Field id="inputCreatePost" type="password" name="password" />
 
 
-             <button type='submit'>Register</button>
+             <button className='center' type='submit'>Register</button>
          </Form>
         </Formik>
      </div>

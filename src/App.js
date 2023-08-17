@@ -42,15 +42,7 @@ function App() {
     });
   }, []); 
 
-  const logout = () => {
-    localStorage.removeItem("accessToken"); //removing accessToken from localStorage
-    setAuthState({
-      username: "",
-      id: "", 
-      status: false}
-      ); //making authstate false will change the login button on top
-
-  }
+  
 
   return (
     <div className="App">
@@ -67,8 +59,10 @@ function App() {
                 <Link className='links' to="/">Home</Link>
             )}
             <div className='loggedInContainer'>
-              <h1>{authState.username}</h1>
-              {authState.status && <button className='logoutButton' onClick={logout}>Logout</button>}
+              {authState.status && (
+                <Link className='links' to={`/profile/${authState.id}`}>{authState.username}</Link>
+              )}
+              
             </div>
             
           </div>

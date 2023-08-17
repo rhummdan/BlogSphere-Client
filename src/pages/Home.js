@@ -98,13 +98,13 @@ export const Home = () => {
                     <Form className='formContainer'>
                         <label>Title: </label>
                         <ErrorMessage name='title' component="span"/>
-                        <Field id="inputCreatePost" name="title" placeholder="(Ex. Title...)" autoComplete="off"/>
+                        <Field id="inputCreatePost" name="title" autoComplete="off"/>
                         
                         <label>Post: </label>
                         <ErrorMessage name='postText' component="span"/>
-                        <Field id="inputCreatePost" name="postText" placeholder="(Ex. Post...)" autoComplete="off"/>
+                        <Field id="inputCreatePost" name="postText" autoComplete="off"/>
 
-                        <button type='submit'>Add Post</button>
+                        <button className="center" type='submit'>Add Post</button>
                     </Form>
                 </Formik>
             </div>
