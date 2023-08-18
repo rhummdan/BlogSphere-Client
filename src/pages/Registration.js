@@ -13,7 +13,7 @@ export const Registration = () => {
 
     const navigate = useNavigate();
 
-    const [userAddition, setUserAddition] = useState(false);
+
 
     //creating schema for the fields of the form
     const validationSchema = Yup.object().shape({

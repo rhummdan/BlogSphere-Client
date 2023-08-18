@@ -3,7 +3,6 @@ import axios from "axios";
 import {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Route, Routes, Link, useNavigate} from 'react-router-dom'
 import { Home } from './pages/Home';
-import { CreatePost } from './pages/CreatePost';
 import { Post } from './pages/Post';
 import { Login } from './pages/Login';
 import { Registration } from './pages/Registration';
