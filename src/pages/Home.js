@@ -46,8 +46,8 @@ export const Home = () => {
 
     //creating schema for the fields of the form
     const validationSchema = Yup.object().shape({
-        title: Yup.string().required("You must input a title!"),
-        postText: Yup.string().required(),
+        title: Yup.string().required("A post requires a title."),
+        postText: Yup.string().required("A post requires text."),
     });
 
     //on submit we will post data to database. "data" contains user input in form of object
