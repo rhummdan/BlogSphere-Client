@@ -39,13 +39,16 @@ export const Profile = () => {
     return (
         <div className="profilePageContainer">
             <div className="basicInfo">
-                <h1>Username: {userName}</h1>
+                <h1>{userName}'s Profile</h1>
                 {authState.username === userName && (
-                    <button onClick={() => {navigate("/changepassword")}}>Change My Password</button>
+                    <>
+                        <button className="profileButton" onClick={() => {navigate("/changepassword")}}>Change My Password</button>
+                        <button className="profileButton" onClick={logout}>logout</button>
+                    </>
                 )}
-                <button onClick={logout}>logout</button>
                 
             </div>
+        
             <div className="listOfPosts">
                 {
                     listOfPosts.map((value, key) => {

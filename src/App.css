@@ -327,3 +327,17 @@ button {
 .loggedInContainer .links {
   margin-right: 15px;
 }
+
+
+.profileButton {
+  background-color: #00A4A6;
+  color: white;
+}
+
+.footer .buttons2 {
+  flex: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 25px;
+}

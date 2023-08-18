@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import {AuthContext} from "../helpers/AuthContext"
 import { useNavigate } from "react-router-dom";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 
 export const Post = () => {
@@ -117,10 +118,18 @@ export const Post = () => {
                         }
                     }}>{postObject.postText}</div>
                     <div className="footer">
-                        {postObject.username}
-                        {postObject.username === authState.username && (
-                            <button onClick={() => {deletePost(postObject.id)}}>Delete Post</button>
-                        )}
+                        <div className="username">
+                            {postObject.username}
+                        </div>
+                        <div className="buttons2">
+                            
+                            {postObject.username === authState.username && (
+                                <>
+                                    <DeleteOutlineIcon style={{ fontSize: '30px' }} onClick={() => {deletePost(postObject.id)}}/>
+                                </>
+                            )}
+                        </div>
+                        
                     </div>
                 </div>   
             </div>
@@ -135,7 +144,7 @@ export const Post = () => {
                             <div className="comment">
                                 {comment.commentBody}
                                 <label className="username"> - {comment.username}</label>
-                               {authState.username === comment.username && (
+                               {authState.username === comment.username && (     
                                     <button className="delete" onClick={() => {deleteComment(comment.id)}}>X</button>
                                )} 
                             </div>
