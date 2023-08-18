@@ -17,10 +17,16 @@ export const Registration = () => {
 
     //formik will already pass the user inputted data
     const onSubmit = (data) => {
+        // axios.post("http://localhost:3001/auth/repeat").then((response) => {
+        //     if(response.data.error) {
+                
+        //     }
+        // })
         axios.post("http://localhost:3001/auth", data).then(() => {
-            console.log(data);;
+            console.log(data);
         })
     };
+
 
     return (
         <div className='createPostPage'>
