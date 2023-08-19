@@ -6,7 +6,7 @@ import {AuthContext} from "../helpers/AuthContext"
 
 export const Login = () => {
 
-    //states that will contain user and pass inputted by user
+    
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
@@ -20,7 +20,6 @@ export const Login = () => {
             if(response.data.error) {
                 alert(response.data.error);
             } else {
-                //we're setting the key of the item to be "accessToken". This way, if we want to access it from session storage, we just look for the key
                 localStorage.setItem("accessToken", response.data.token);
                 setAuthState({username: response.data.username, id: response.data.id, status: true});
                 navigate("/");

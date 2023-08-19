@@ -1,8 +1,8 @@
 import axios from "axios";
 import {useEffect, useState, useContext} from 'react';
-import {useNavigate, Link} from "react-router-dom"; // allows us to redirect in app
+import {useNavigate, Link} from "react-router-dom";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import {AuthContext} from "../helpers/AuthContext" //allows us to use the authstate set from the app.js page
+import {AuthContext} from "../helpers/AuthContext"
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 
@@ -12,8 +12,7 @@ export const Home = () => {
 
     const [listOfPosts, setListOfPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
-    const  navigate = useNavigate(); //we wil use this to navigate to diff page when user clicks on post
-    const {authState} = useContext(AuthContext);
+    const  navigate = useNavigate(); 
 
     //setting initial values for fields of form
     const initialValues = {
@@ -27,15 +26,14 @@ export const Home = () => {
             navigate("/login");
         } else {
             axios.get("http://localhost:3001/posts", {
-            headers: {accessToken: localStorage.getItem("accessToken")},
-        }).then((response) => {   //pay attention to how header is passed into a request that calls                                                                     
-            setListOfPosts(response.data.listOfPosts);                  //validate token
-            //as of now, the liked post array contains objects. We're mapping through it and replacing each object with just
-            //the postId val
-            setLikedPosts(response.data.likedPosts.map((like) => {
-                return like.PostId;
-            }));
-            
+                headers: {accessToken: localStorage.getItem("accessToken")},
+            }).then((response) => {                                                                       
+                setListOfPosts(response.data.listOfPosts);
+                //as of now, the liked post array contains objects. We're mapping through it and replacing each object with just
+                //the postId val
+                setLikedPosts(response.data.likedPosts.map((like) => {
+                    return like.PostId;
+                }));
         })
         }
     }
@@ -68,7 +66,7 @@ export const Home = () => {
         ).then((res) => {
             //updating likes array so that the like count changes. Remember every post has a likes array
             setListOfPosts(listOfPosts.map((post) => {
-                if(post.id === postId) {    //modfying exaxt post
+                if(post.id === postId) {
                     if(res.data.liked) {
                         return {...post, Likes: [...post.Likes, 0]} //keeping the post the same except the likes array, and for the likes array, keep everything same but add element
                     } else {

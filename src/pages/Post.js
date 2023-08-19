@@ -46,6 +46,7 @@ export const Post = () => {
                 const commentToAdd = {commentBody: newComment, username: response.data.username};
                 setComments([...comments, commentToAdd]); //updating list of comments when user added comment. The first param indicates that we get the prev verison of the list. The second param says what to add
                 setNewComment("");
+                console.log(response.data);
             }
             
         })
