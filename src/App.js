@@ -14,7 +14,7 @@ import { ChangePassword } from './pages/ChangePassword';
 function App() {
 
   //authState will be accessible in multiple files due to context api
-  //auth state is an object with multiple mariables
+  //auth state is an object with multiple variables
   const [authState, setAuthState] = useState({
     username: "", 
     id: 0, 
@@ -28,7 +28,7 @@ function App() {
     axios.get("http://localhost:3001/auth/auth", {headers: {
       accessToken: localStorage.getItem('accessToken'),
     },
-  }).then((response) => {               //response is an object with multiple varibles
+  }).then((response) => {              
       if(response.data.error) { 
         setAuthState({...authState, status: false});   //everything about authState will remain the same except status
       } else {

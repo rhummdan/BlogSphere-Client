@@ -20,16 +20,14 @@ export const Post = () => {
     useEffect(() => {
         axios.get(`http://localhost:3001/posts/info/${id}`).then((response) => {
             setPostObject(response.data);
-        });
-
-        
+        }); //fetching selected post's information
+  
         axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
             setComments(response.data);
-        });
+        }); //fetching selected post's comments
     }, []);
 
-    //function will be called when user clicks button to add comment
-    //ofcourse, the parameters also have to be passed
+    
     const addComment = () => {
         axios.post("http://localhost:3001/comments", {commentBody: newComment, PostId: id},
         {
@@ -41,25 +39,24 @@ export const Post = () => {
         ).then((response) => {
             //making sure there's no error in the access token before adding comment.
             if(response.data.error) {
-                //alert();
+                console.log(response.data.error);
             } else {
-                const commentToAdd = {commentBody: newComment, username: response.data.username};
-                setComments([...comments, commentToAdd]); //updating list of comments when user added comment. The first param indicates that we get the prev verison of the list. The second param says what to add
-                setNewComment("");
                 console.log(response.data);
+                const commentToAdd = {commentBody: newComment, username: response.data.username, id: response.data.id};
+                setComments([...comments, commentToAdd]); //updating list of comments to include recently added one
+                setNewComment("");
             }
-            
         })
     };
 
     const deleteComment = (id) => {
+        console.log(id);
         axios.delete(`http://localhost:3001/comments/${id}`, {
             headers: {
                 accessToken: localStorage.getItem("accessToken")
             }
         }).then(() => {
-            
-            //using javasxript filter function to delete specific comment in the list
+            //deleting selected comment from list of comments with the filter function
             setComments(comments.filter((value) => {
                 return value.id != id; //if value.id != id, we're gonna keep that comment. If it is, we delete it
             }))
@@ -80,7 +77,7 @@ export const Post = () => {
     const editPost = (option) => {
         if(option === "title") {
             const newTitle = prompt("Enter New Title:");
-            if(newTitle) {
+            if(newTitle) {      //If newTitle is empty, it means the user cancelled the title change
                 axios.put("http://localhost:3001/posts/title", {newTitle: newTitle, id: id}, {
                 headers: {accessToken: localStorage.getItem("accessToken")},
                 }).then((res) => {
@@ -89,7 +86,6 @@ export const Post = () => {
             } else {
                 alert("Title update cancelled.");
             }
-            
         } else {
             const newPostText = prompt("Enter New Text:");
             if(newPostText) {
@@ -139,8 +135,9 @@ export const Post = () => {
                     <input type="text" placeholder="Comment..." onChange={(event) => {setNewComment(event.target.value)}} value={newComment}/>
                     <button onClick={addComment}>Add Comment</button>
                 </div>
+                
                 <div className="listOfComments">
-                    {comments.map((comment, key) => {
+                    {comments.slice().reverse().map((comment, key) => {
                         return (
                             <div className="comment">
                                 {comment.commentBody}

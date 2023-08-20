@@ -25,14 +25,14 @@ export const Profile = () => {
         })
     }, []);
 
-    //testing the logout button in this part of the screen 
+    
     const logout = () => {
         localStorage.removeItem("accessToken"); //removing accessToken from localStorage
         setAuthState({
           username: "",
           id: "", 
           status: false}
-          ); //making authstate false will change the login button on top
+          ); //the authState "status" variable determines what links will be displayed on the nav bar
         navigate("/login");
       }
 
