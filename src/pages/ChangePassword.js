@@ -9,7 +9,7 @@ export const ChangePassword = () => {
     const navigate = useNavigate();
 
     const changePassword = () => {
-        axios.put("http://localhost:3001/auth/changepassword", {oldPassword: oldPassword, newPassword: newPassword}, {
+        axios.put("https://blogsphere-app-c9203590a7d2.herokuapp.com/auth/changepassword", {oldPassword: oldPassword, newPassword: newPassword}, {
             headers: {accessToken: localStorage.getItem("accessToken")},
         }).then((response) => {
             if(response.data.error) {

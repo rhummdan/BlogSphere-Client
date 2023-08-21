@@ -16,11 +16,11 @@ export const Profile = () => {
     const {setAuthState} = useContext(AuthContext);
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/auth/basicinfo/${id}`).then((response) => {
+        axios.get(`https://blogsphere-app-c9203590a7d2.herokuapp.com/auth/basicinfo/${id}`).then((response) => {
             setUserName(response.data.username)
         });
 
-        axios.get(`http://localhost:3001/posts/byuserId/${id}`).then((response) => {
+        axios.get(`https://blogsphere-app-c9203590a7d2.herokuapp.com/posts/byuserId/${id}`).then((response) => {
             setListOfPosts(response.data);
         })
     }, []);

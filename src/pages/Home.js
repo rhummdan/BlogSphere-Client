@@ -25,7 +25,7 @@ export const Home = () => {
         if(!localStorage.getItem("accessToken")) {
             navigate("/login");
         } else {
-            axios.get("http://localhost:3001/posts", {
+            axios.get("https://blogsphere-app-c9203590a7d2.herokuapp.com/posts", {
                 headers: {accessToken: localStorage.getItem("accessToken")},
             }).then((response) => {                                                                       
                 setListOfPosts(response.data.listOfPosts);
@@ -50,7 +50,7 @@ export const Home = () => {
 
     //on submit we will post data to database. "data" contains user input in form of object
     const onSubmit = (data, props) => {
-        axios.post("http://localhost:3001/posts", data, {
+        axios.post("https://blogsphere-app-c9203590a7d2.herokuapp.com/posts", data, {
             headers: {accessToken: localStorage.getItem("accessToken")},
         }).then(() => {  
             fillUpStates();
@@ -60,7 +60,7 @@ export const Home = () => {
 
 
     const likeAPost = (postId) => {
-        axios.post("http://localhost:3001/likes", 
+        axios.post("https://blogsphere-app-c9203590a7d2.herokuapp.com/likes", 
         {PostId: postId}, 
         {headers: {accessToken: localStorage.getItem("accessToken")}}
         ).then((res) => {

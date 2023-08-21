@@ -18,18 +18,18 @@ export const Post = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/posts/info/${id}`).then((response) => {
+        axios.get(`https://blogsphere-app-c9203590a7d2.herokuapp.com/posts/info/${id}`).then((response) => {
             setPostObject(response.data);
         }); //fetching selected post's information
   
-        axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
+        axios.get(`https://blogsphere-app-c9203590a7d2.herokuapp.com/comments/${id}`).then((response) => {
             setComments(response.data);
         }); //fetching selected post's comments
     }, []);
 
     
     const addComment = () => {
-        axios.post("http://localhost:3001/comments", {commentBody: newComment, PostId: id},
+        axios.post("https://blogsphere-app-c9203590a7d2.herokuapp.com/comments", {commentBody: newComment, PostId: id},
         {
             //storing accessToken in headers to pass to middleware
             headers: {
@@ -51,7 +51,7 @@ export const Post = () => {
 
     const deleteComment = (id) => {
         console.log(id);
-        axios.delete(`http://localhost:3001/comments/${id}`, {
+        axios.delete(`https://blogsphere-app-c9203590a7d2.herokuapp.com/comments/${id}`, {
             headers: {
                 accessToken: localStorage.getItem("accessToken")
             }
@@ -65,7 +65,7 @@ export const Post = () => {
 
     //delete post function
     const deletePost = (id) => {
-        axios.delete(`http://localhost:3001/posts/${id}`, {
+        axios.delete(`https://blogsphere-app-c9203590a7d2.herokuapp.com/posts/${id}`, {
             headers: {
                 accessToken: localStorage.getItem("accessToken")
             }
@@ -78,7 +78,7 @@ export const Post = () => {
         if(option === "title") {
             const newTitle = prompt("Enter New Title:");
             if(newTitle) {      //If newTitle is empty, it means the user cancelled the title change
-                axios.put("http://localhost:3001/posts/title", {newTitle: newTitle, id: id}, {
+                axios.put("https://blogsphere-app-c9203590a7d2.herokuapp.com/posts/title", {newTitle: newTitle, id: id}, {
                 headers: {accessToken: localStorage.getItem("accessToken")},
                 }).then((res) => {
                     setPostObject({...postObject, title: res.data});
@@ -89,7 +89,7 @@ export const Post = () => {
         } else {
             const newPostText = prompt("Enter New Text:");
             if(newPostText) {
-                axios.put("http://localhost:3001/posts/postText", {newText: newPostText, id: id}, {
+                axios.put("https://blogsphere-app-c9203590a7d2.herokuapp.com/posts/postText", {newText: newPostText, id: id}, {
                 headers: {accessToken: localStorage.getItem("accessToken")},
                 }).then((res) => {
                     setPostObject({...postObject, postText: res.data});

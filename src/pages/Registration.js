@@ -30,9 +30,9 @@ export const Registration = () => {
     //formik will already pass the user inputted data
     const onSubmit = async (data) => {
         
-        axios.post("http://localhost:3001/auth/repeat", data).then((response) => {
+        axios.post("https://blogsphere-app-c9203590a7d2.herokuapp.com/auth/repeat", data).then((response) => {
             if(!response.data.found) {
-                axios.post("http://localhost:3001/auth", data).then(() => {
+                axios.post("https://blogsphere-app-c9203590a7d2.herokuapp.com/auth", data).then(() => {
                     console.log(data);
                 })
                 navigate("/login");
